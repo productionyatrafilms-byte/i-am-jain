@@ -220,7 +220,8 @@ body[data-lang="gu"] .swiper-slide p {
 .sub-title {
   position: absolute;
   width: 8vw;
-  height: 15vh;
+  height: 18vh;
+
   top: 49%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -234,13 +235,15 @@ body[data-lang="gu"] .swiper-slide p {
     display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1vw;
 }
 
 .sub-title span {
   line-height: 4vh;
 }
-
+body[data-lang="gu"] .sub-title span {
+  line-height: 5vh!important;
+  font-size: 1.8vw!important;
+}
 /* scroll */
 .scripture-scroll-container {
   position: relative;
