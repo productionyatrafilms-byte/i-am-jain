@@ -1,0 +1,505 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: 'AbrilFatface';
+  src: url('./font/AbrilFatface-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Baloo';
+  src: url('./font/baloo.regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Onyx';
+  src: url('./font/OPTIOnyx.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ITFDevanagariBold";
+  src: url("./font/ITFDevanagari-Bold-02.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+:root {
+  --enter-dur: 4s;
+  --enter-ease: cubic-bezier(.2, .8, .2, 1);
+}
+
+body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* When Hindi is active */
+body[data-lang="hi"] [data-lang-key] {
+  font-family: "ITFDevanagariBold", sans-serif !important;
+}
+
+/* When Gujarati is active */
+body[data-lang="gu"] [data-lang-key] {
+  font-family: "ITFDevanagariBold", sans-serif !important;
+}
+
+.page {
+  background-color: #81019d;
+  background-image: url("assets/image/bg1.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: top;
+  height: 100vh;
+}
+
+/* nav */
+nav {
+  width: 100vw;
+   padding: 4.5vh 4vw 0 4vw;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+}
+
+/* language buttons */
+.lang-btn {
+  width: 8vw;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  padding: 0.5vh 0.3vw;
+  border: 0.3vb solid white;
+  border-radius: 50vb;
+
+}
+
+.lang-btn button {
+  width: 2.2vw;
+  height: 2.2vw;
+  border: 0.3vb solid white;
+  border-radius: 50vb;
+  font-size: 1.5vw;
+  font-weight: 600;
+  background-color: transparent;
+  color: white;
+  font-family: 'Baloo', serif;
+}
+
+.lang-btn button:hover {
+  background-color: white;
+  color: #81019d;
+}
+
+.lang-btn button.active {
+  background-color: white;
+  color: #81019d;
+}
+.video-play-btn {
+  border-radius: 50vb;
+}
+
+.video-play-btn button {
+  padding: 0.1vh 0vw;
+  display: flex;
+  justify-content: space-around;
+  width: 8vw;
+  background-color: transparent;
+  border-radius: 50vb;
+  border: 0.3vb solid white;
+  text-align: center;
+  align-content: center !important;
+  font-family: 'Baloo', serif;
+}
+
+.video-play-btn button img {
+  width: 1.8vw;
+  object-fit: contain;
+}
+
+.video-play-btn button span {
+  padding: 0.1vh 0vw;
+  padding-right: 0.5vb;
+  font-size: 1.5vw;
+  font-weight: 600;
+  color: white;
+  display: inline-block;
+}
+
+body[data-lang="hi"] .video-play-btn button span {
+  font-size: 1.6vw !important;
+  font-weight: bolder;
+}
+
+/* Gujarati active */
+body[data-lang="gu"] .video-play-btn button span {
+  font-size: 1.6vw !important;
+  font-weight: bolder;
+}
+
+.video-play-btn:hover {
+  background-color: rgba(255, 255, 255, 0.427);
+}
+
+
+/* main */
+.main {
+  width: 100vw;
+  height: 90vh;
+  padding: 0vh 2vw;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* left-container */
+.left {
+  width: 55vw;
+  height: 90vh;
+}
+
+.left .title {
+  width: 100%;
+  height: 40vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+
+.left .title h1 {
+  font-size: 15vw !important;
+  font-family: 'Onyx';
+  font-weight: lighter;
+  background: linear-gradient(to top,
+      #D5060A 0%,
+      /* bottom */
+      #D5060A 18%,
+      #FFB041 50%,
+      /* small red area */
+      #FFB041 100%
+      /* dominant orange */
+    );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+    filter: drop-shadow(0vw 0.5vw 0.2vw rgba(0,0,0,0.4));
+}
+
+.circle-container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  padding: 2vw;
+  justify-content: center;
+  gap: 2vw;
+  align-items: center;
+}
+
+.circle-container .circle {
+  position: relative;
+}
+
+.circle-container .circle .sub-title {
+  font-family: 'AbrilFatface';
+  color: #630A83;
+  position: absolute;
+  font-size: 2.5vw;
+  left: 17%;
+  transform: translate(8%, -40%);
+  width: 55%;
+  height: 50%;
+  line-height: 100%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  bottom: 8%;
+}
+
+.sub-title span {
+  transition: transform 0.35s cubic-bezier(.25, .8, .25, 1),
+    text-shadow 0.35s ease;
+  transform-origin: center;
+    text-align: center;
+}
+body[data-lang="hi"] .sub-title span {
+  font-size: 2.5vw !important;
+}
+
+/* Gujarati active */
+body[data-lang="gu"] .sub-title span {
+  font-size:2.3vw !important;
+  font-weight: 600;
+  line-height: 3vw;
+
+}
+.circle-container .circle:hover .sub-title span {
+  transform: scale(1.18);
+  text-shadow: 0 0.4vw 1vw rgba(0, 0, 0, 0.25);
+}
+
+.circle-container .circle img {
+  width: 16vw;
+  height: 16vw;
+  width: 16vw;
+  height: 16vw;
+  transition: transform 0.6s ease;
+  transform-origin: center center;
+  backface-visibility: hidden;
+}
+
+.circle-container .circle:hover img {
+  animation: circleSpinZoom 0.7s cubic-bezier(.25, .8, .25, 1) forwards;
+}
+
+@keyframes circleSpinZoom {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  60% {
+    transform: rotate(360deg) scale(1.12);
+  }
+
+  100% {
+    transform: rotate(360deg) scale(1.08);
+  }
+}
+
+.circle1 img {
+  animation: circleBreath 5s ease-in-out infinite;
+}
+
+@keyframes circleBreath {
+  0% {
+    transform: scale(1);
+  }
+
+  20% {
+    transform: scale(1.08);
+  }
+
+  40% {
+    transform: scale(1);
+  }
+
+  60% {
+    transform: scale(1.05);
+  }
+
+  80% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* right-container */
+.right {
+  position: relative;
+  width: 45vw;
+  height: 90vh;
+}
+
+.right .right-img-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+}
+
+.right .right-img-container div .star {
+  width: 100%;
+
+}
+
+.right .right-img-container div{
+  position: relative;
+  width: 100%;
+  height: 100%; 
+    display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.right .right-img-container .character {
+  position: absolute;
+  width: 11vw;
+  left: 36%;
+  top: 50%;
+  transform: translateY(-50%);
+  /* transform: translate(-50%, -50%); */
+}
+
+.video-play-btn,
+.lang-btn,
+.left .title,
+.circle-container,
+.right {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.video-play-btn {
+  transform: translateX(-12vw);
+  animation: enterLeft var(--enter-dur) var(--enter-ease) 120ms forwards;
+}
+
+/* lang buttons: from right */
+.lang-btn {
+  transform: translateX(12vw);
+  animation: enterRight var(--enter-dur) var(--enter-ease) 160ms forwards;
+}
+
+/* title: from top */
+.left .title {
+  transform: translateY(-10vh);
+  animation: enterTop var(--enter-dur) var(--enter-ease) 220ms forwards;
+}
+
+body[data-lang="hi"] .title h1 {
+  font-size: 12vw !important;
+  font-family: 'Onyx'!important;
+  font-weight: bolder;
+}
+
+/* Gujarati active */
+body[data-lang="gu"] .title h1 {
+  font-size: 11vw !important;
+   font-family: 'Onyx'!important;
+  font-weight: bolder;
+  word-spacing: -1vw;
+}
+
+/* circle-container: from bottom */
+.circle-container {
+  transform: translateY(12vh);
+  animation: enterBottom var(--enter-dur) var(--enter-ease) 320ms forwards;
+}
+
+/* right container: from right */
+.right {
+  transform: translateX(14vw);
+  animation: enterRight var(--enter-dur) var(--enter-ease) 260ms forwards;
+}
+
+/* OPTIONAL: make circles pop slightly after container arrives */
+
+
+/* ========= Keyframes ========= */
+@keyframes enterLeft {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes enterRight {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes enterTop {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes enterBottom {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ===== Overlay ===== */
+.video-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(0.1vw);
+  -webkit-backdrop-filter: blur(0.1vw);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.4s ease;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+}
+
+.video-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#videoPlayControlIcon,
+#videoPauseControlIcon {
+  width: 3.5vw;
+  object-fit: contain;
+}
+
+/* blur background */
+.page.blur {
+  filter: blur(0.1vw) brightness(0.95);
+  transition: 0.4s ease;
+}
+
+/* video box */
+.video-wrapper {
+  position: relative;
+  width: 60vw !important;
+  height: 70vh;
+}
+
+.video-wrapper video {
+  width: 100%;
+  height: 70vh;
+  border-radius: 2vw;
+}
+
+/* center play pause */
+.video-control {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.video-control img {
+  width: 5vw;
+  opacity: 0.9;
+  transition: 0.2s;
+}
+
+/* close button */
+.video-close {
+  position: absolute;
+  top: -3vw;
+  right: -3vw;
+  width: 2.5vw;
+  cursor: pointer;
+}

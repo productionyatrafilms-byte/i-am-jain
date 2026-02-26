@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="initial-scale=1.0" />
+    <title>i-am-jain</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- page start -->
+    <div class="page">
+      <!-- nav start -->
+      <nav>
+        <div class="video-play-btn">
+          <button>
+            <img src="./assets/image/play-btn.png" alt="" />
+            <span data-lang-key="start">START</span>
+          </button>
+        </div>
+        <div class="lang-btn">
+          <button class="english">E</button>
+          <button class="hindi">H</button>
+          <button class="Gujrati">G</button>
+        </div>
+      </nav>
+      <!-- nav end -->
+
+      <!-- main start -->
+      <div class="main">
+        <!-- left container -->
+        <div class="left">
+          <div class="title">
+            <h1 data-lang-key="title">i am jain</h1>
+          </div>
+          <div class="circle-container">
+            <a class="circle circle1" href="/who-am-i.html">
+              <img src="./assets/image/circle.png" alt="" />
+              <div class="sub-title sub-title-1">
+                <span data-lang-key="sub-title-1">Who am I?</span>
+              </div>
+            </a>
+            <a class="circle circle2" href="i-am-jain.html">
+              <img src="./assets/image/circle.png" alt="" />
+              <div class="sub-title sub-title-2">
+                <span data-lang-key="sub-title-2">I am JAIN</span>
+              </div>
+            </a>
+            <a class="circle circle3" href="what-is-my-duty.html">
+              <img src="./assets/image/circle.png" alt="" />
+              <div class="sub-title sub-title-3">
+                <span data-lang-key="sub-title-3">What is my duty?</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- right-container -->
+        <div class="right">
+          <div class="right-img-container">
+            <div>
+              <img class="star" src="./assets/image/star-img.png" alt="" />
+              <img class="character" src="./assets/image/namste.png" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- main end -->
+    </div>
+    <!-- page end -->
+
+    <!-- VIDEO OVERLAY -->
+    <div class="video-overlay" id="videoOverlay">
+      <div class="video-wrapper">
+        <!-- close button -->
+        <img
+          src="./assets/image/close-btn.png"
+          class="video-close"
+          id="videoClose"
+        />
+
+        <!-- video -->
+        <video
+          id="introVideo"
+          preload="auto"
+          poster="./assets/image/video-thumbnail.png"
+        >
+          <source src="./assets/video/Kyonki main jain.mp4" type="video/mp4" />
+        </video>
+
+        <!-- center play pause -->
+        <div class="video-control" id="videoControl">
+          <img
+            id="videoPlayControlIcon"
+            src="./assets/image/video-play-btn.png"
+          />
+          <img id="videoPauseControlIcon" src="./assets/image/pause-btn.png" />
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
