@@ -333,7 +333,7 @@ body[data-lang="gu"] .sub-title span {
   position: absolute;
   top: 10vw;
   left: 50%;
-  width: 27vw;
+  width: 28vw;
   height: 10vw;
   transform: translate(-50%, -50%) scale(0.98);
   z-index: 2;
@@ -374,14 +374,14 @@ body[data-lang="gu"] .sub-title span {
 }
 
 body[data-lang="hi"] .perchment-text {
-  line-height: 4.5vh;
+  line-height: 7vh;
   font-size: 2.2vw;
 }
 
 body[data-lang="gu"] .perchment-text {
   font-size: 1.8vw;
   font-weight: 600 !important;
-  line-height: 5.5vh;
+  line-height: 6vh;
 }
 
 /* swiper buttons */
