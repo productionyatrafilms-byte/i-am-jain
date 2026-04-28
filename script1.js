@@ -1,12 +1,12 @@
 // =========================
 // 0) Elements
 // =========================
-const circleContainer = document.querySelector(".circle-container"); // parent of circle + subtitle
+const circleContainer = document.querySelector(".circle-container");
 const container = document.querySelector(".scripture-scroll-container");
 const roll = document.querySelector(".roll");
 const p1 = document.querySelector(".perchment-1");
 
-const circleContainerEl = document.querySelector(".circle-container"); // for open-controls class
+const circleContainerEl = document.querySelector(".circle-container");
 const parchmentEl = document.querySelector(".parchment-content");
 const paginationEl = document.querySelector(".left-pagination");
 const starMaskEl = document.querySelector(".star-mask");
@@ -23,13 +23,9 @@ function openScrollOnce() {
   if (hasOpened) return;
   hasOpened = true;
 
-  // start opening animation
   if (container) container.classList.add("open");
-
-  // show page navigation buttons (prev/next)
   if (circleContainerEl) circleContainerEl.classList.add("open-controls");
 
-  // wait for roll transition to finish
   if (!roll) return;
 
   const onDone = (e) => {
@@ -52,11 +48,10 @@ function openScrollOnce() {
 }
 
 // =========================
-// 2) Click handling (circle + subtitle) using delegation
+// 2) Click handling
 // =========================
 if (circleContainer) {
   circleContainer.addEventListener("click", (e) => {
-    // click on circle OR subtitle OR subtitle span
     if (e.target.closest(".circle") || e.target.closest(".sub-title")) {
       openScrollOnce();
     }
@@ -64,7 +59,7 @@ if (circleContainer) {
 }
 
 // =========================
-// 3) Star mask build (canvas hard-edge mask)
+// 3) Star mask build
 // =========================
 (() => {
   const src = "./assets/image/star-img.png";
@@ -114,7 +109,7 @@ if (circleContainer) {
 })();
 
 // =========================
-// 4) Swipers (text + media synced)
+// 4) Swipers
 // =========================
 const textSwiperInstance = new Swiper(".textSwiper", {
   loop: false,
@@ -134,10 +129,10 @@ textSwiperInstance.controller.control = mediaSwiperInstance;
 mediaSwiperInstance.controller.control = textSwiperInstance;
 
 // =========================
-// 5) Hide Swiper arrows only (NOT circle-controls)
+// 5) Hide Swiper arrows only
 // =========================
 const prevBtnEls = document.querySelectorAll(".p-prev, .p-prev i");
-const nextBtnEls = document.querySelectorAll(".p-next , .p-next i");
+const nextBtnEls = document.querySelectorAll(".p-next, .p-next i");
 
 function syncSwiperArrows(swiper) {
   prevBtnEls.forEach((b) =>
@@ -152,23 +147,41 @@ textSwiperInstance.on("slideChange", () =>
 );
 
 // =========================
-// Language Switcher (single JSON file)
+// Language Switcher with persistence
 // Uses: data-lang-key="..."
-// English default active on every load
 // =========================
 (() => {
+  const LANG_KEY = "selectedLanguage";
+  const DEFAULT_LANG = "en";
+  const LANG_JSON_URL = "./assets/lang/lang.json";
+
+  let LANG_DATA = null;
+
+  function getValidLang(lang) {
+    return ["en", "hi", "gu"].includes(lang) ? lang : DEFAULT_LANG;
+  }
+
+  const savedLang = getValidLang(localStorage.getItem(LANG_KEY) || DEFAULT_LANG);
+
+  // Apply selected language immediately before JSON loads
+  document.documentElement.setAttribute("lang", savedLang);
+  document.body.setAttribute("data-lang", savedLang);
+
   const btnEn = document.querySelector(".lang-btn .english");
   const btnHi = document.querySelector(".lang-btn .hindi");
-  const btnGu = document.querySelector(".lang-btn .Gujrati"); // your class
+  const btnGu = document.querySelector(".lang-btn .Gujrati");
 
   const buttons = [btnEn, btnHi, btnGu].filter(Boolean);
 
-  const LANG_JSON_URL = "./assets/lang/lang.json";
-  let LANG_DATA = null;
+  const langBtnMap = {
+    en: btnEn,
+    hi: btnHi,
+    gu: btnGu,
+  };
 
-  function setActive(btn) {
+  function setActiveByLang(lang) {
     buttons.forEach((b) => b.classList.remove("active"));
-    btn?.classList.add("active");
+    langBtnMap[lang]?.classList.add("active");
   }
 
   function setText(el, value) {
@@ -190,49 +203,53 @@ textSwiperInstance.on("slideChange", () =>
 
   async function loadAllLangDataOnce() {
     if (LANG_DATA) return LANG_DATA;
+
     const res = await fetch(LANG_JSON_URL, { cache: "no-store" });
+    if (!res.ok) throw new Error("Language JSON not found");
+
     LANG_DATA = await res.json();
     return LANG_DATA;
   }
 
-  async function setLanguage(lang) {
+  async function setLanguage(lang, shouldSave = true) {
+    lang = getValidLang(lang);
+
     try {
+      document.documentElement.setAttribute("lang", lang);
+      document.body.setAttribute("data-lang", lang);
+
+      setActiveByLang(lang);
+
+      if (shouldSave) {
+        localStorage.setItem(LANG_KEY, lang);
+      }
+
       const data = await loadAllLangDataOnce();
       const dict = data?.[lang];
-      if (!dict) return;
 
-      document.body.setAttribute("data-lang", lang); // ✅ add this
+      if (!dict) return;
 
       applyTranslations(dict);
     } catch (err) {
       console.error("Language load failed:", err);
     }
   }
-  btnEn?.addEventListener("click", () => {
-    setActive(btnEn);
-    setLanguage("en");
-  });
 
-  btnHi?.addEventListener("click", () => {
-    setActive(btnHi);
-    setLanguage("hi");
-  });
+  btnEn?.addEventListener("click", () => setLanguage("en", true));
+  btnHi?.addEventListener("click", () => setLanguage("hi", true));
+  btnGu?.addEventListener("click", () => setLanguage("gu", true));
 
-  btnGu?.addEventListener("click", () => {
-    setActive(btnGu);
-    setLanguage("gu");
-  });
-
-  // ✅ Default every time page loads: English
   window.addEventListener("DOMContentLoaded", () => {
-    setActive(btnEn);
-    setLanguage("en");
+    const currentLang = getValidLang(
+      localStorage.getItem(LANG_KEY) || DEFAULT_LANG,
+    );
+
+    setLanguage(currentLang, false);
   });
 })();
 
 // =========================
 // Mobile Portrait -> show "Rotate to Landscape" popup
-// Paste this at the END of your who-am-i.js
 // =========================
 (() => {
   const overlay = document.createElement("div");
@@ -246,7 +263,6 @@ textSwiperInstance.on("slideChange", () =>
     </div>
   `;
 
-  // style (no extra CSS file needed)
   const style = document.createElement("style");
   style.textContent = `
     #rotateOverlay{
@@ -303,7 +319,6 @@ textSwiperInstance.on("slideChange", () =>
   }
 
   function checkRotate() {
-    // show only on mobile + portrait
     if (isMobile() && isPortrait()) overlay.classList.add("show");
     else overlay.classList.remove("show");
   }

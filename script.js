@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const video = document.getElementById("introVideo");
   const control = document.getElementById("videoControl");
 
-  const playIcon = document.getElementById("videoPlayControlIcon"); // ./assets/image/video-play-btn.png
-  const pauseIcon = document.getElementById("videoPauseControlIcon"); // ./assets/image/pause-btn.png
+  const playIcon = document.getElementById("videoPlayControlIcon");
+  const pauseIcon = document.getElementById("videoPauseControlIcon");
 
   const closeBtn = document.getElementById("videoClose");
 
@@ -55,23 +55,19 @@ document.addEventListener("DOMContentLoaded", () => {
   showCenterPlay();
   setStartPlay();
 
-  // ===== Open overlay (video stays paused + thumbnail shows) =====
+  // ===== Open overlay =====
   function openOverlayPaused() {
     overlay.classList.add("active");
     page.classList.add("blur");
 
-    // ensure paused + thumbnail visible (poster)
     video.pause();
     video.currentTime = 0;
 
-    // requirement: START icon becomes PAUSE on click
     setStartPause();
-
-    // center control should show PLAY
     showCenterPlay();
   }
 
-  // ===== Close overlay (reset) =====
+  // ===== Close overlay =====
   function closeOverlay() {
     video.pause();
     video.currentTime = 0;
@@ -83,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setStartPlay();
   }
 
-  // ===== Toggle play/pause from center control or video click =====
+  // ===== Toggle play/pause =====
   function togglePlayPause() {
     if (video.paused) {
       video.play().catch((err) => console.error("Video play blocked:", err));
@@ -117,12 +113,10 @@ document.addEventListener("DOMContentLoaded", () => {
     closeOverlay();
   });
 
-  // click outside video closes
   overlay.addEventListener("click", (e) => {
     if (e.target === overlay) closeOverlay();
   });
 
-  // if video ends, reset buttons to play state (overlay stays open)
   video.addEventListener("ended", () => {
     showCenterPlay();
     setStartPlay();
@@ -130,23 +124,41 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // =========================
-// Language Switcher (single JSON file)
+// Language Switcher with selected language persistence
 // Uses: data-lang-key="..."
-// English default active on every load
 // =========================
 (() => {
+  const LANG_KEY = "selectedLanguage";
+  const DEFAULT_LANG = "en";
+  const LANG_JSON_URL = "./assets/lang/lang.json";
+
+  const savedLang = localStorage.getItem(LANG_KEY) || DEFAULT_LANG;
+
+  // Apply saved language immediately to avoid default English flash
+  document.documentElement.setAttribute("lang", savedLang);
+  document.body?.setAttribute("data-lang", savedLang);
+
   const btnEn = document.querySelector(".lang-btn .english");
   const btnHi = document.querySelector(".lang-btn .hindi");
-  const btnGu = document.querySelector(".lang-btn .Gujrati"); // your class
+  const btnGu = document.querySelector(".lang-btn .Gujrati");
 
   const buttons = [btnEn, btnHi, btnGu].filter(Boolean);
 
-  const LANG_JSON_URL = "./assets/lang/lang.json";
+  const langBtnMap = {
+    en: btnEn,
+    hi: btnHi,
+    gu: btnGu,
+  };
+
   let LANG_DATA = null;
 
-  function setActive(btn) {
+  function getValidLang(lang) {
+    return ["en", "hi", "gu"].includes(lang) ? lang : DEFAULT_LANG;
+  }
+
+  function setActiveByLang(lang) {
     buttons.forEach((b) => b.classList.remove("active"));
-    btn?.classList.add("active");
+    langBtnMap[lang]?.classList.add("active");
   }
 
   function setText(el, value) {
@@ -168,49 +180,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function loadAllLangDataOnce() {
     if (LANG_DATA) return LANG_DATA;
+
     const res = await fetch(LANG_JSON_URL, { cache: "no-store" });
+    if (!res.ok) throw new Error("Language JSON not found");
+
     LANG_DATA = await res.json();
     return LANG_DATA;
   }
 
-  async function setLanguage(lang) {
+  async function setLanguage(lang, shouldSave = true) {
+    lang = getValidLang(lang);
+
     try {
+      document.documentElement.setAttribute("lang", lang);
+      document.body.setAttribute("data-lang", lang);
+
+      setActiveByLang(lang);
+
+      if (shouldSave) {
+        localStorage.setItem(LANG_KEY, lang);
+      }
+
       const data = await loadAllLangDataOnce();
       const dict = data?.[lang];
-      if (!dict) return;
 
-      document.body.setAttribute("data-lang", lang); // ✅ add this
+      if (!dict) return;
 
       applyTranslations(dict);
     } catch (err) {
       console.error("Language load failed:", err);
     }
   }
-  btnEn?.addEventListener("click", () => {
-    setActive(btnEn);
-    setLanguage("en");
-  });
 
-  btnHi?.addEventListener("click", () => {
-    setActive(btnHi);
-    setLanguage("hi");
-  });
+  btnEn?.addEventListener("click", () => setLanguage("en", true));
+  btnHi?.addEventListener("click", () => setLanguage("hi", true));
+  btnGu?.addEventListener("click", () => setLanguage("gu", true));
 
-  btnGu?.addEventListener("click", () => {
-    setActive(btnGu);
-    setLanguage("gu");
-  });
+  document.addEventListener("DOMContentLoaded", () => {
+    const currentLang = getValidLang(
+      localStorage.getItem(LANG_KEY) || DEFAULT_LANG,
+    );
 
-  // ✅ Default every time page loads: English
-  window.addEventListener("DOMContentLoaded", () => {
-    setActive(btnEn);
-    setLanguage("en");
+    setLanguage(currentLang, false);
   });
 })();
 
 // =========================
 // Mobile Portrait -> show "Rotate to Landscape" popup
-// Paste this at the END of your who-am-i.js
 // =========================
 (() => {
   const overlay = document.createElement("div");
@@ -224,7 +240,6 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
   `;
 
-  // style (no extra CSS file needed)
   const style = document.createElement("style");
   style.textContent = `
     #rotateOverlay{
@@ -281,7 +296,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function checkRotate() {
-    // show only on mobile + portrait
     if (isMobile() && isPortrait()) overlay.classList.add("show");
     else overlay.classList.remove("show");
   }
@@ -290,4 +304,3 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("resize", checkRotate);
   window.addEventListener("orientationchange", checkRotate);
 })();
-

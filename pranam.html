@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-lang-key="pranam"></title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <style>
+      body {
+        background-image: url("./assets/image/bg1.png");
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .lang-btn {
+        position: fixed;
+        right: 5%;
+        top: 3vw;
+        opacity: 1;
+        transform: none;
+        animation: enterRight var(--enter-dur) var(--enter-ease) 160ms forwards;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="what-is-my-duty.html" class="back-btn">
+      <i class="fa-solid fa-arrow-left"></i>
+    </a>
+    <div class="lang-btn">
+      <button class="english">E</button>
+      <button class="hindi">H</button>
+      <button class="Gujrati">G</button>
+    </div>
+    <div class="pranam-container">
+      <div class="pranam-img">
+        <span data-lang-key="pranam"></span>
+        <img src="./assets/images/pranam-img.png" alt="" />
+      </div>
+      <a href="index.html" class="home-btn-1">
+        <span data-lang-key="home"></span>
+        <img src="./assets/images/home-btn-1.png" alt="" />
+      </a>
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>

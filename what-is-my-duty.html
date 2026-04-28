@@ -228,5 +228,52 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="script1.js"></script>
+    <script>
+      window.addEventListener("load", () => {
+        const nextBtn = document.querySelector(".p-next");
+        const nextIcon = document.querySelector(".p-next i");
+        const textSwiperEl = document.querySelector(".textSwiper");
+
+        if (!nextBtn || !textSwiperEl || !textSwiperEl.swiper) return;
+
+        const swiper = textSwiperEl.swiper;
+
+        function isLastSlide() {
+          return swiper.activeIndex === swiper.slides.length - 1;
+        }
+
+        function keepNextVisible() {
+          nextBtn.classList.remove("is-hidden", "swiper-button-disabled");
+          nextBtn.removeAttribute("disabled");
+
+          nextBtn.style.opacity = "1";
+          nextBtn.style.visibility = "visible";
+          nextBtn.style.pointerEvents = "auto";
+
+          if (nextIcon) {
+            nextIcon.classList.remove("is-hidden");
+          }
+        }
+
+        keepNextVisible();
+
+        swiper.on("slideChange", keepNextVisible);
+        swiper.on("transitionEnd", keepNextVisible);
+        swiper.on("reachEnd", keepNextVisible);
+
+        nextBtn.addEventListener(
+          "click",
+          (e) => {
+            if (isLastSlide()) {
+              e.preventDefault();
+              e.stopPropagation();
+              e.stopImmediatePropagation();
+              window.location.assign("pranam.html");
+            }
+          },
+          true,
+        );
+      });
+    </script> 
   </body>
 </html>
