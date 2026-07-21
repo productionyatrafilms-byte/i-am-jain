@@ -29,25 +29,117 @@
       }
     </style>
   </head>
+
   <body>
     <a href="what-is-my-duty.html" class="back-btn">
       <i class="fa-solid fa-arrow-left"></i>
     </a>
+
     <div class="lang-btn">
       <button class="english">E</button>
       <button class="hindi">H</button>
       <button class="Gujrati">G</button>
     </div>
+
     <div class="pranam-container">
       <div class="pranam-img">
         <span data-lang-key="pranam"></span>
-        <img src="./assets/images/pranam-img.png" alt="" />
+        <img src="./assets/image/pranam.png" alt="" />
       </div>
+
       <a href="index.html" class="home-btn-1">
         <span data-lang-key="home"></span>
-        <img src="./assets/images/home-btn-1.png" alt="" />
+        <img src="./assets/image/pranam-home-btn.png" alt="" />
       </a>
     </div>
+
     <script src="./script.js"></script>
+
+    <script>
+      // =========================
+      // Page Audio Effects
+      // Page load -> pranam.mp3 (plays once, only on load)
+      // Back button -> pop.mp3
+      // Home button -> transition.mp3
+      // English button -> Eng.mpeg
+      // Hindi button -> Hin.mpeg
+      // Gujarati button -> Guj.mpeg
+      // =========================
+
+      const pranamAudio = new Audio("./assets/audio/pranam.mp3");
+      const popAudio = new Audio("./assets/audio/pop.mp3");
+      const transitionAudio = new Audio("./assets/audio/transition.mp3");
+
+      const englishAudio = new Audio("./assets/audio/Eng.mpeg");
+      const hindiAudio = new Audio("./assets/audio/Hin.mpeg");
+      const gujratiAudio = new Audio("./assets/audio/Guj.mpeg");
+
+      function stopAndPlay(audio) {
+        audio.pause();
+        audio.currentTime = 0;
+
+        audio.play().catch((err) => {
+          console.error("Audio play blocked:", err);
+        });
+      }
+
+      // ===== Play pranam.mp3 once on page load only =====
+      window.addEventListener("load", () => {
+        pranamAudio.currentTime = 0;
+
+        pranamAudio.play().catch((err) => {
+          console.error("Pranam audio autoplay blocked:", err);
+        });
+      });
+
+      // ===== Back button audio =====
+      const backBtn = document.querySelector(".back-btn");
+
+      backBtn?.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const targetLink = backBtn.getAttribute("href");
+
+        stopAndPlay(popAudio);
+
+        // Small delay so pop.mp3 can play before page changes
+        setTimeout(() => {
+          window.location.href = targetLink;
+        }, 500);
+      });
+
+      // ===== Home button audio =====
+      const homeBtn = document.querySelector(".home-btn-1");
+
+      homeBtn?.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const targetLink = homeBtn.getAttribute("href");
+
+        stopAndPlay(transitionAudio);
+
+        // 2 seconds delay before page changes
+        setTimeout(() => {
+          window.location.href = targetLink;
+        }, 2000);
+      });
+
+      // ===== Language buttons audio =====
+      const englishBtn = document.querySelector(".english");
+      const hindiBtn = document.querySelector(".hindi");
+      const gujratiBtn = document.querySelector(".Gujrati");
+
+      englishBtn?.addEventListener("click", () => {
+        stopAndPlay(englishAudio);
+      });
+
+      hindiBtn?.addEventListener("click", () => {
+        stopAndPlay(hindiAudio);
+      });
+
+      gujratiBtn?.addEventListener("click", () => {
+        stopAndPlay(gujratiAudio);
+      });
+    </script>
   </body>
 </html>

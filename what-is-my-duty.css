@@ -118,6 +118,12 @@ nav {
   object-fit: contain;
 }
 
+.home a:hover img {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+  content:url("./assets/image/home-btn-hov.png")
+}
+
 /* title */
 .title {
   position: absolute;
@@ -638,4 +644,86 @@ i:hover {
   object-fit: cover;
   display: block;
   z-index: 1;
+}
+
+.pranam-link{
+  position:fixed;
+  bottom: 2vw;
+  right:2vw;
+  z-index:9999;
+  width: 15vw;
+  height: 6vw;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  background-image: url("./assets/image/arowAsset.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: scale(1);
+   opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.6);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease,
+    visibility 0s linear 0.3s;
+}
+
+.pranam-link.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: none; /* let the animation below take over */
+  animation: pranamPopIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+ 
+/* --- 3. Smooth "pop" keyframe animation --- */
+@keyframes pranamPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  80% {
+    transform: scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+ 
+/* --- 4. Next button: hidden state on the last slide --- */
+.p-next.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.3s ease,
+    visibility 0s linear 0.3s;
+}
+ 
+/* Make sure the visible p-next has a matching transition
+   so it fades back in smoothly when navigating away from
+   the last slide (only needed if not already defined) */
+.p-next {
+  transition:
+    opacity 0.3s ease,
+    visibility 0s;
+}
+.pranam-link span{
+  font-family: 'Baloo', serif;
+  font-size: 2vw;
+  color:white;
+  text-align:center;
+  padding-right: 5vw;
+}
+
+.pranam-link:hover{
+  transform: scale(1.05);
 }

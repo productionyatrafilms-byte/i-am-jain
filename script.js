@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // =========================
-// Language Switcher with selected language persistence
+// Language Switcher with selected language persistence + Audio
 // Uses: data-lang-key="..."
 // =========================
 (() => {
@@ -132,9 +132,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const DEFAULT_LANG = "en";
   const LANG_JSON_URL = "./assets/lang/lang.json";
 
-  const savedLang = localStorage.getItem(LANG_KEY) || DEFAULT_LANG;
+  // Add your audio files here
+  const LANG_AUDIO = {
+    en: "./assets/audio/Eng.mpeg",
+    hi: "./assets/audio/Hin.mpeg",
+    gu: "./assets/audio/Guj.mpeg",
+  };
 
-  // Apply saved language immediately to avoid default English flash
+  let currentAudio = null;
+  let LANG_DATA = null;
+
+  function getValidLang(lang) {
+    return ["en", "hi", "gu"].includes(lang) ? lang : DEFAULT_LANG;
+  }
+
+  const savedLang = getValidLang(
+    localStorage.getItem(LANG_KEY) || DEFAULT_LANG,
+  );
+
+  // Apply saved language immediately
   document.documentElement.setAttribute("lang", savedLang);
   document.body?.setAttribute("data-lang", savedLang);
 
@@ -150,10 +166,21 @@ document.addEventListener("DOMContentLoaded", () => {
     gu: btnGu,
   };
 
-  let LANG_DATA = null;
+  function playLanguageAudio(lang) {
+    const audioSrc = LANG_AUDIO[lang];
+    if (!audioSrc) return;
 
-  function getValidLang(lang) {
-    return ["en", "hi", "gu"].includes(lang) ? lang : DEFAULT_LANG;
+    // Stop previous language audio
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    }
+
+    currentAudio = new Audio(audioSrc);
+
+    currentAudio.play().catch((err) => {
+      console.error("Language audio blocked:", err);
+    });
   }
 
   function setActiveByLang(lang) {
@@ -188,7 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return LANG_DATA;
   }
 
-  async function setLanguage(lang, shouldSave = true) {
+  async function setLanguage(lang, shouldSave = true, shouldPlayAudio = false) {
     lang = getValidLang(lang);
 
     try {
@@ -204,24 +231,30 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await loadAllLangDataOnce();
       const dict = data?.[lang];
 
-      if (!dict) return;
+      if (dict) {
+        applyTranslations(dict);
+      }
 
-      applyTranslations(dict);
+      // Play audio only when user clicks language button
+      if (shouldPlayAudio) {
+        playLanguageAudio(lang);
+      }
     } catch (err) {
       console.error("Language load failed:", err);
     }
   }
 
-  btnEn?.addEventListener("click", () => setLanguage("en", true));
-  btnHi?.addEventListener("click", () => setLanguage("hi", true));
-  btnGu?.addEventListener("click", () => setLanguage("gu", true));
+  btnEn?.addEventListener("click", () => setLanguage("en", true, true));
+  btnHi?.addEventListener("click", () => setLanguage("hi", true, true));
+  btnGu?.addEventListener("click", () => setLanguage("gu", true, true));
 
   document.addEventListener("DOMContentLoaded", () => {
     const currentLang = getValidLang(
       localStorage.getItem(LANG_KEY) || DEFAULT_LANG,
     );
 
-    setLanguage(currentLang, false);
+    // Apply saved language without playing audio
+    setLanguage(currentLang, false, false);
   });
 })();
 

@@ -17,6 +17,7 @@
             <span data-lang-key="start">START</span>
           </button>
         </div>
+
         <div class="lang-btn">
           <button class="english">E</button>
           <button class="hindi">H</button>
@@ -32,6 +33,7 @@
           <div class="title">
             <h1 data-lang-key="title">i am jain</h1>
           </div>
+
           <div class="circle-container">
             <a class="circle circle1" href="/who-am-i.html">
               <img src="./assets/image/circle.png" alt="" />
@@ -39,12 +41,14 @@
                 <span data-lang-key="sub-title-1">Who am I?</span>
               </div>
             </a>
+
             <a class="circle circle2" href="i-am-jain.html">
               <img src="./assets/image/circle.png" alt="" />
               <div class="sub-title sub-title-2">
                 <span data-lang-key="sub-title-2">I am JAIN</span>
               </div>
             </a>
+
             <a class="circle circle3" href="what-is-my-duty.html">
               <img src="./assets/image/circle.png" alt="" />
               <div class="sub-title sub-title-3">
@@ -76,9 +80,10 @@
           src="./assets/image/close-btn.png"
           class="video-close"
           id="videoClose"
+          alt=""
         />
 
-        <!-- video -->v
+        <!-- video -->
         <video
           id="introVideo"
           preload="auto"
@@ -92,12 +97,62 @@
           <img
             id="videoPlayControlIcon"
             src="./assets/image/video-play-btn.png"
+            alt=""
           />
-          <img id="videoPauseControlIcon" src="./assets/image/pause-btn.png" />
+          <img
+            id="videoPauseControlIcon"
+            src="./assets/image/pause-btn.png"
+            alt=""
+          />
         </div>
       </div>
     </div>
 
     <script src="script.js"></script>
+
+    <script>
+      // =========================
+      // Page click audio
+      // Circle click -> transition.mp3
+      // Video start click -> topic.mp3
+      // =========================
+
+      const transitionAudio = new Audio("./assets/audio/transition.mp3");
+      const topicAudio = new Audio("./assets/audio/topic.mp3");
+
+      function stopAndPlay(audio) {
+        audio.pause();
+        audio.currentTime = 0;
+
+        audio.play().catch((err) => {
+          console.error("Audio play blocked:", err);
+        });
+      }
+
+      // ===== Video play button audio =====
+      const videoPlayBtn = document.querySelector(".video-play-btn button");
+
+      videoPlayBtn?.addEventListener("click", () => {
+        stopAndPlay(topicAudio);
+      });
+
+      // ===== Circle click audio with 1.5 second page change delay =====
+      const circles = document.querySelectorAll(".circle");
+
+      circles.forEach((circle) => {
+        circle.addEventListener("click", (e) => {
+          e.preventDefault();
+
+          const targetLink = circle.getAttribute("href");
+
+          stopAndPlay(transitionAudio);
+
+          // 1.5 second delay before page changes
+          setTimeout(() => {
+            window.location.href = targetLink;
+          }, 2000);
+        });
+      });
+    </script>
   </body>
 </html>

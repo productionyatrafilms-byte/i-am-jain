@@ -67,7 +67,7 @@ body[data-lang="gu"] [data-lang-key] {
 /* nav */
 nav {
   width: 100vw;
-   padding: 4.5vh 4vw 0 4vw;
+  padding: 4.5vh 4vw 0 4vw;
   display: flex;
   justify-content: space-between;
   align-content: center;
@@ -82,7 +82,6 @@ nav {
   padding: 0.5vh 0.3vw;
   border: 0.3vb solid white;
   border-radius: 50vb;
-
 }
 
 .lang-btn button {
@@ -106,6 +105,7 @@ nav {
   background-color: white;
   color: #81019d;
 }
+
 .video-play-btn {
   border-radius: 50vb;
 }
@@ -195,7 +195,7 @@ body[data-lang="gu"] .video-play-btn button span {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-    filter: drop-shadow(0vw 0.5vw 0.2vw rgba(0,0,0,0.4));
+  filter: drop-shadow(0vw 0.5vw 0.2vw rgba(0, 0, 0, 0.4));
 }
 
 .circle-container {
@@ -233,19 +233,21 @@ body[data-lang="gu"] .video-play-btn button span {
   transition: transform 0.35s cubic-bezier(.25, .8, .25, 1),
     text-shadow 0.35s ease;
   transform-origin: center;
-    text-align: center;
+  text-align: center;
 }
+
 body[data-lang="hi"] .sub-title span {
   font-size: 2.5vw !important;
 }
 
 /* Gujarati active */
 body[data-lang="gu"] .sub-title span {
-  font-size:2.3vw !important;
+  font-size: 2.3vw !important;
   font-weight: 600;
   line-height: 3vw;
 
 }
+
 .circle-container .circle:hover .sub-title span {
   transform: scale(1.18);
   text-shadow: 0 0.4vw 1vw rgba(0, 0, 0, 0.25);
@@ -330,14 +332,15 @@ body[data-lang="gu"] .sub-title span {
 
 }
 
-.right .right-img-container div{
+.right .right-img-container div {
   position: relative;
   width: 100%;
-  height: 100%; 
-    display: flex;
+  height: 100%;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .right .right-img-container .character {
   position: absolute;
   width: 11vw;
@@ -375,14 +378,14 @@ body[data-lang="gu"] .sub-title span {
 
 body[data-lang="hi"] .title h1 {
   font-size: 12vw !important;
-  font-family: 'Onyx'!important;
+  font-family: 'Onyx' !important;
   font-weight: bolder;
 }
 
 /* Gujarati active */
 body[data-lang="gu"] .title h1 {
   font-size: 11vw !important;
-   font-family: 'Onyx'!important;
+  font-family: 'Onyx' !important;
   font-weight: bolder;
   word-spacing: -1vw;
 }
@@ -511,7 +514,7 @@ body[data-lang="gu"] .title h1 {
   height: auto;
   top: 50% !important;
   left: 50% !important;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 10%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -536,7 +539,7 @@ body[data-lang="gu"] .title h1 {
   left: 50%;
   font-size: 3.4vw;
   transform: translateX(-50%);
-  font-family: "BalooRegular";
+  font-family: 'Baloo';
   color: #B764D9;
 }
 
@@ -552,7 +555,7 @@ body[data-lang="gu"] .title h1 {
 }
 
 .pranam-container .home-btn-1:hover {
-  transform: translateX(-50%) scale(1.5);
+  transform: translateX(-50%) scale(1.05);
 }
 
 .pranam-container .home-btn-1 img {
@@ -567,14 +570,14 @@ body[data-lang="gu"] .title h1 {
   left: 38%;
   font-size: 2.5vw;
   transform: translateY(-50%);
-  font-family: "BalooRegular";
+  font-family: 'Baloo';
   color: #ffae3c;
 }
 
 .back-btn {
   position: absolute;
   left: 4%;
-  top:3vw;
+  top: 3vw;
   width: 3vw;
   height: 3vw;
   border-radius: 50%;
@@ -595,10 +598,11 @@ body[data-lang="gu"] .title h1 {
 }
 
 
-.back-btn:hover i{
-  color: #630A83!important;
+.back-btn:hover i {
+  color: #630A83 !important;
 }
+
 .back-btn:hover {
   transform: scale(1.05);
-  background-color: white!important;
+  background-color: white !important;
 }

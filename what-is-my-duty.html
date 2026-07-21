@@ -43,6 +43,11 @@
       </nav>
       <!-- nav end -->
 
+      <!-- pranam link starts hidden; JS reveals it with a pop animation on the last slide -->
+      <a href="pranam.html" class="pranam-link">
+        <span data-lang-key="pranamz">Pranam</span>
+      </a>
+
       <!-- main start -->
       <div class="main">
         <!-- left container -->
@@ -165,7 +170,7 @@
                     <div class="swiper-slide">
                       <video
                         class="star-video"
-                        src="./assets/video/what-is-my-duty/9.mp4"
+                        src="./assets/video/what-is-my-duty/12.mp4"
                         autoplay
                         muted
                         loop
@@ -229,10 +234,109 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="script1.js"></script>
     <script>
+      // =========================
+      // Page Audio Effects
+      // Circle click -> curtain.mp3
+      // Circle container navigation -> transition.mp3
+      // Parchment navigation buttons -> swipe.mp3
+      // Home button -> pop.mp3
+      // English button -> a.mp3
+      // Hindi button -> b.mp3
+      // Gujarati button -> c.mp3
+      // =========================
+
+      const curtainAudio = new Audio("./assets/audio/curtain.mp3");
+      const transitionAudio = new Audio("./assets/audio/transition.mp3");
+      const swipeAudio = new Audio("./assets/audio/swipe.mp3");
+      const popAudio = new Audio("./assets/audio/pop.mp3");
+
+      const englishAudio = new Audio("./assets/audio/Eng.mpeg");
+      const hindiAudio = new Audio("./assets/audio/Hin.mpeg");
+      const gujratiAudio = new Audio("./assets/audio/Guj.mpeg");
+
+      function stopAndPlay(audio) {
+        audio.pause();
+        audio.currentTime = 0;
+
+        audio.play().catch((err) => {
+          console.error("Audio play blocked:", err);
+        });
+      }
+
+      // ===== Home button audio =====
+      const homeBtnLink = document.querySelector(".home a");
+
+      homeBtnLink?.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const targetLink = homeBtnLink.getAttribute("href");
+
+        stopAndPlay(popAudio);
+
+        // Small delay so pop.mp3 can play before page changes
+        setTimeout(() => {
+          window.location.href = targetLink;
+        }, 500);
+      });
+
+      // ===== Language buttons audio =====
+      const englishBtn = document.querySelector(".english");
+      const hindiBtn = document.querySelector(".hindi");
+      const gujratiBtn = document.querySelector(".Gujrati");
+
+      englishBtn?.addEventListener("click", () => {
+        stopAndPlay(englishAudio);
+      });
+
+      hindiBtn?.addEventListener("click", () => {
+        stopAndPlay(hindiAudio);
+      });
+
+      gujratiBtn?.addEventListener("click", () => {
+        stopAndPlay(gujratiAudio);
+      });
+
+      // ===== Circle click audio =====
+      const circleBtn = document.querySelector(".circle");
+
+      circleBtn?.addEventListener("click", () => {
+        stopAndPlay(curtainAudio);
+      });
+
+      // ===== Circle container navigation audio =====
+      const circleNavButtons = document.querySelectorAll(
+        ".circle-controls .prev, .circle-controls .next",
+      );
+
+      circleNavButtons.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+
+          const targetLink = btn.getAttribute("href");
+
+          stopAndPlay(transitionAudio);
+
+          // 2 seconds delay before page changes
+          setTimeout(() => {
+            window.location.href = targetLink;
+          }, 2000);
+        });
+      });
+
+      // ===== Parchment swiper navigation audio =====
+      const parchmentNavButtons = document.querySelectorAll(".p-prev, .p-next");
+
+      parchmentNavButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          stopAndPlay(swipeAudio);
+        });
+      });
+
+      // ===== Last-slide handling: hide next-btn, reveal pranam-link with pop animation =====
       window.addEventListener("load", () => {
         const nextBtn = document.querySelector(".p-next");
-        const nextIcon = document.querySelector(".p-next i");
         const textSwiperEl = document.querySelector(".textSwiper");
+        const pranamLink = document.querySelector(".pranam-link");
 
         if (!nextBtn || !textSwiperEl || !textSwiperEl.swiper) return;
 
@@ -242,25 +346,34 @@
           return swiper.activeIndex === swiper.slides.length - 1;
         }
 
-        function keepNextVisible() {
-          nextBtn.classList.remove("is-hidden", "swiper-button-disabled");
-          nextBtn.removeAttribute("disabled");
+        function updateLastSlideUI() {
+          if (isLastSlide()) {
+            // hide the next button
+            nextBtn.classList.add("is-hidden");
 
-          nextBtn.style.opacity = "1";
-          nextBtn.style.visibility = "visible";
-          nextBtn.style.pointerEvents = "auto";
+            // reveal pranam link with pop animation
+            if (pranamLink) {
+              pranamLink.classList.add("show");
+            }
+          } else {
+            // show next button again
+            nextBtn.classList.remove("is-hidden");
 
-          if (nextIcon) {
-            nextIcon.classList.remove("is-hidden");
+            // hide pranam link again
+            if (pranamLink) {
+              pranamLink.classList.remove("show");
+            }
           }
         }
 
-        keepNextVisible();
+        // run once on load in case the swiper starts on the last slide
+        updateLastSlideUI();
 
-        swiper.on("slideChange", keepNextVisible);
-        swiper.on("transitionEnd", keepNextVisible);
-        swiper.on("reachEnd", keepNextVisible);
+        swiper.on("slideChange", updateLastSlideUI);
+        swiper.on("transitionEnd", updateLastSlideUI);
+        swiper.on("reachEnd", updateLastSlideUI);
 
+        // ===== Redirect to pranam.html when clicking p-next on the last slide =====
         nextBtn.addEventListener(
           "click",
           (e) => {
@@ -268,12 +381,18 @@
               e.preventDefault();
               e.stopPropagation();
               e.stopImmediatePropagation();
-              window.location.assign("pranam.html");
+
+              stopAndPlay(swipeAudio);
+
+              // Small delay so swipe.mp3 can play before redirect
+              setTimeout(() => {
+                window.location.assign("pranam.html");
+              }, 500);
             }
           },
           true,
         );
       });
-    </script> 
+    </script>
   </body>
 </html>
