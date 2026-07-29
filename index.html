@@ -5,24 +5,345 @@
     <meta name="viewport" content="initial-scale=1.0" />
     <title>i-am-jain</title>
     <link rel="stylesheet" href="style.css" />
+
+    <style>
+      /* ---------------------------------------------------------- */
+      /* Video overlay + custom controls (same pattern as topic pages) */
+      /* ---------------------------------------------------------- */
+
+      .page {
+        transition:
+          filter 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      body.video-open .page {
+        filter: blur(0.45vw);
+        pointer-events: none;
+        user-select: none;
+      }
+
+      .video-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.38);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition:
+          opacity 0.35s ease,
+          visibility 0.35s ease;
+      }
+
+      .video-overlay.active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+
+      .video-wrapper {
+        position: relative;
+        width: 68vw;
+        aspect-ratio: 16 / 9;
+        border-radius: 2vw;
+        background: #faa12c56;
+        padding: 0.75vw;
+        border: 0.25vw solid white;
+        box-shadow: 0 1vw 3vw rgba(0, 0, 0, 0.45);
+        transform: scale(0.82);
+        opacity: 0;
+        transition:
+          transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.35s ease;
+        backdrop-filter: blur(0.5vw);
+        -webkit-backdrop-filter: blur(0.5vw);
+      }
+
+      .video-overlay.active .video-wrapper {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      .video-frame {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 1.4vw;
+        overflow: hidden;
+        background: #000;
+        border: 0.18vw solid #a60b0b;
+      }
+
+      #introVideo {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        background: #000;
+      }
+
+      .video-close {
+        position: absolute;
+        top: -3vw;
+        right: -3vw;
+        width: 3.4vw;
+        height: 3.4vw;
+        cursor: pointer;
+        z-index: 10;
+        filter: drop-shadow(0 0.35vw 1vw rgba(0, 0, 0, 0.35));
+        transition: transform 0.25s ease;
+      }
+
+      .video-close:hover {
+        transform: rotate(90deg) scale(1.08);
+      }
+
+      .video-control {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 6vw;
+        height: 6vw;
+        transform: translate(-50%, -50%);
+        z-index: 4;
+        cursor: pointer;
+        transition:
+          opacity 0.25s ease,
+          transform 0.25s ease;
+      }
+
+      .video-control img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .video-control.hide {
+        opacity: 0;
+        pointer-events: none;
+        transform: translate(-50%, -50%) scale(0.8);
+      }
+
+      #videoPauseControlIcon {
+        display: none;
+      }
+
+      /* Bottom custom control bar */
+      .custom-controls {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 5;
+        padding: 1vw;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75vw;
+        background: linear-gradient(
+          to top,
+          rgba(166, 11, 11, 0.96),
+          rgba(229, 141, 42, 0.62),
+          rgba(229, 141, 42, 0)
+        );
+        opacity: 1;
+        transition: opacity 0.25s ease;
+      }
+
+      .video-frame.controls-hidden .custom-controls {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .progress-wrap {
+        width: 100%;
+        display: flex;
+        align-items: center;
+      }
+
+      .video-progress {
+        width: 100%;
+        appearance: none;
+        -webkit-appearance: none;
+        height: 0.45vw;
+        border-radius: 5vw;
+        background: rgba(255, 255, 255, 0.35);
+        cursor: pointer;
+        overflow: hidden;
+        pointer-events: auto;
+      }
+
+      .video-progress::-webkit-slider-thumb {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 1vw;
+        height: 1vw;
+        border-radius: 50%;
+        background: #ffffff;
+        box-shadow: -70vw 0 0 69.6vw #ffffff;
+        cursor: pointer;
+      }
+
+      .video-progress::-moz-range-thumb {
+        width: 1vw;
+        height: 1vw;
+        border: none;
+        border-radius: 50%;
+        background: #ffffff;
+        cursor: pointer;
+      }
+
+      .video-progress::-moz-range-progress {
+        height: 0.45vw;
+        border-radius: 5vw;
+        background: #ffffff;
+      }
+
+      .control-row {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1vw;
+      }
+
+      .control-left,
+      .control-right {
+        display: flex;
+        align-items: center;
+        gap: 0.8vw;
+      }
+
+      .control-btn {
+        width: 2.8vw;
+        min-width: 2.8vw;
+        max-width: 2.8vw;
+        height: 2.8vw;
+        border: none;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.24);
+        color: #ffffff;
+        font-size: 1.2vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition:
+          background 0.25s ease,
+          color 0.25s ease,
+          transform 0.25s ease;
+      }
+
+      .control-btn:hover {
+        background: #ffffff;
+        color: #a60b0b;
+        transform: scale(1.08);
+      }
+
+      .time-text {
+        color: #ffffff;
+        font-size: 1.05vw;
+        font-weight: 700;
+        font-family: Arial, sans-serif;
+        letter-spacing: 0.05vw;
+        min-width: 8vw;
+      }
+
+      .volume-range {
+        width: 7vw;
+        appearance: none;
+        -webkit-appearance: none;
+        height: 0.4vw;
+        border-radius: 5vw;
+        background: rgba(255, 255, 255, 0.35);
+        cursor: pointer;
+      }
+
+      .volume-range::-webkit-slider-thumb {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 0.9vw;
+        height: 0.9vw;
+        border-radius: 50%;
+        background: #ffffff;
+        cursor: pointer;
+      }
+
+      .volume-range::-moz-range-thumb {
+        width: 0.9vw;
+        height: 0.9vw;
+        border: none;
+        border-radius: 50%;
+        background: #ffffff;
+        cursor: pointer;
+      }
+
+      .video-fullscreen-btn {
+        border: none;
+        background: rgba(255, 255, 255, 0.24);
+        color: #ffffff;
+        width: 2.8vw;
+        min-width: 2.8vw;
+        max-width: 2.8vw;
+        height: 2.8vw;
+        border-radius: 50%;
+        font-size: 1.3vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition:
+          background 0.25s ease,
+          color 0.25s ease,
+          transform 0.25s ease;
+      }
+
+      .video-fullscreen-btn:hover {
+        background: #ffffff;
+        color: #a60b0b;
+        transform: scale(1.08);
+      }
+
+      .video-wrapper:fullscreen {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        padding: 0;
+        background: #000;
+      }
+
+      .video-wrapper:fullscreen .video-frame {
+        border-radius: 0;
+        border: none;
+      }
+
+      .video-wrapper:fullscreen .video-close {
+        top: 1.5vw;
+        right: 1.5vw;
+      }
+    </style>
   </head>
   <body>
     <!-- page start -->
     <div class="page">
       <!-- nav start -->
-      <nav>
-        <div class="video-play-btn">
-          <button>
-            <img src="./assets/image/play-btn.png" alt="" />
-            <span data-lang-key="start">START</span>
-          </button>
-        </div>
-
+       
         <div class="lang-btn">
           <button class="english">E</button>
           <button class="hindi">H</button>
           <button class="Gujrati">G</button>
         </div>
+      <nav>
+        <div class="video-play-btn">
+          <button>
+           
+            <span data-lang-key="watch"></span>
+          </button>
+        </div>
+
       </nav>
       <!-- nav end -->
 
@@ -83,27 +404,87 @@
           alt=""
         />
 
-        <!-- video -->
-        <video
-          id="introVideo"
-          preload="auto"
-          poster="./assets/image/video-thumbnail.png"
-        >
-          <source src="./assets/video/Kyonki main jain.mp4" type="video/mp4" />
-        </video>
+        <div class="video-frame" id="videoFrame">
+          <!-- video (native controls removed, replaced by custom bar below) -->
+          <video
+            id="introVideo"
+            preload="auto"
+            poster="./assets/image/video-thumbnail.png"
+            controlsList="nodownload noplaybackrate"
+            disablePictureInPicture
+            playsinline
+          >
+            <source src="./assets/video/Kyonki main jain.mp4" type="video/mp4" />
+          </video>
 
-        <!-- center play pause -->
-        <div class="video-control" id="videoControl">
-          <img
-            id="videoPlayControlIcon"
-            src="./assets/image/video-play-btn.png"
-            alt=""
-          />
-          <img
-            id="videoPauseControlIcon"
-            src="./assets/image/pause-btn.png"
-            alt=""
-          />
+          <!-- center play pause -->
+          <div class="video-control" id="videoControl">
+            <img
+              id="videoPlayControlIcon"
+              src="./assets/image/video-play-btn.png"
+              alt=""
+            />
+            <img
+              id="videoPauseControlIcon"
+              src="./assets/image/pause-btn.png"
+              alt=""
+            />
+          </div>
+
+          <!-- custom bottom control bar -->
+          <div class="custom-controls">
+            <div class="progress-wrap">
+              <input
+                class="video-progress"
+                id="videoProgress"
+                type="range"
+                min="0"
+                max="100"
+                value="0"
+                step="0.1"
+              />
+            </div>
+
+            <div class="control-row">
+              <div class="control-left">
+                <button class="control-btn" id="playPauseBtn" type="button">
+                  ▶
+                </button>
+
+                <div class="time-text">
+                  <span id="currentTime">0:00</span>
+                  /
+                  <span id="totalTime">0:00</span>
+                </div>
+              </div>
+
+              <div class="control-right">
+                <button class="control-btn" id="muteBtn" type="button">
+                  🔊
+                </button>
+
+                <input
+                  class="volume-range"
+                  id="volumeRange"
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value="1"
+                />
+
+                <!-- fullscreen button (moved into control bar) -->
+                <button
+                  id="videoFullscreenBtn"
+                  class="video-fullscreen-btn"
+                  aria-label="Fullscreen"
+                  type="button"
+                >
+                  ⛶
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -132,11 +513,264 @@
       // ===== Video play button audio =====
       const videoPlayBtn = document.querySelector(".video-play-btn button");
 
+      // ===== Video overlay elements =====
+      const videoOverlay = document.getElementById("videoOverlay");
+      const introVideo = document.getElementById("introVideo");
+      const videoClose = document.getElementById("videoClose");
+      const videoFrame = document.getElementById("videoFrame");
+      const videoFullscreenBtn = document.getElementById("videoFullscreenBtn");
+
+      // custom control elements
+      const videoControl = document.getElementById("videoControl");
+      const videoPlayControlIcon = document.getElementById("videoPlayControlIcon");
+      const videoPauseControlIcon = document.getElementById("videoPauseControlIcon");
+      const playPauseBtn = document.getElementById("playPauseBtn");
+      const videoProgress = document.getElementById("videoProgress");
+      const currentTimeText = document.getElementById("currentTime");
+      const totalTimeText = document.getElementById("totalTime");
+      const muteBtn = document.getElementById("muteBtn");
+      const volumeRange = document.getElementById("volumeRange");
+
+      let controlsTimer;
+      let lastVolume = 1;
+      let isProgressDragging = false;
+
+      // ===== Restrict seeking forward, allow seeking backward =====
+      let maxPlayedTime = 0;
+
+      function formatTime(time) {
+        if (!time || isNaN(time)) return "0:00";
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60);
+        return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+      }
+
+      function updatePlayIcons() {
+        if (introVideo.paused) {
+          videoPlayControlIcon.style.display = "block";
+          videoPauseControlIcon.style.display = "none";
+          playPauseBtn.textContent = "▶";
+          videoControl.classList.remove("hide");
+        } else {
+          videoPlayControlIcon.style.display = "none";
+          videoPauseControlIcon.style.display = "block";
+          playPauseBtn.textContent = "⏸";
+          videoControl.classList.add("hide");
+        }
+      }
+
+      function updateProgress() {
+        if (!introVideo.duration) return;
+
+        if (introVideo.currentTime > maxPlayedTime) {
+          maxPlayedTime = introVideo.currentTime;
+        }
+
+        if (!isProgressDragging) {
+          videoProgress.value = (introVideo.currentTime / introVideo.duration) * 100;
+        }
+
+        currentTimeText.textContent = formatTime(introVideo.currentTime);
+        totalTimeText.textContent = formatTime(introVideo.duration);
+      }
+
+      function handleProgressInput() {
+        if (!introVideo.duration) return;
+        isProgressDragging = true;
+
+        const selectedTime = (Number(videoProgress.value) / 100) * introVideo.duration;
+
+        if (selectedTime <= maxPlayedTime) {
+          currentTimeText.textContent = formatTime(selectedTime);
+        } else {
+          const allowedProgress = (maxPlayedTime / introVideo.duration) * 100;
+          videoProgress.value = allowedProgress;
+          currentTimeText.textContent = formatTime(maxPlayedTime);
+        }
+      }
+
+      function handleProgressChange() {
+        if (!introVideo.duration) return;
+
+        const selectedTime = (Number(videoProgress.value) / 100) * introVideo.duration;
+
+        if (selectedTime <= maxPlayedTime) {
+          introVideo.currentTime = selectedTime;
+        } else {
+          introVideo.currentTime = maxPlayedTime;
+          const allowedProgress = (maxPlayedTime / introVideo.duration) * 100;
+          videoProgress.value = allowedProgress;
+        }
+
+        isProgressDragging = false;
+        updateProgress();
+      }
+
+      function updateMuteIcon() {
+        if (introVideo.muted || introVideo.volume === 0) {
+          muteBtn.textContent = "🔇";
+        } else if (introVideo.volume < 0.5) {
+          muteBtn.textContent = "🔉";
+        } else {
+          muteBtn.textContent = "🔊";
+        }
+      }
+
+      function togglePlay() {
+        if (introVideo.paused) {
+          introVideo.play().catch(() => {});
+        } else {
+          introVideo.pause();
+        }
+      }
+
+      function toggleMute() {
+        if (introVideo.muted || introVideo.volume === 0) {
+          introVideo.muted = false;
+          introVideo.volume = lastVolume || 1;
+          volumeRange.value = introVideo.volume;
+        } else {
+          lastVolume = introVideo.volume;
+          introVideo.muted = true;
+          volumeRange.value = 0;
+        }
+        updateMuteIcon();
+      }
+
+      function changeVolume() {
+        const volumeValue = Number(volumeRange.value);
+        introVideo.volume = volumeValue;
+        introVideo.muted = volumeValue === 0;
+        if (volumeValue > 0) lastVolume = volumeValue;
+        updateMuteIcon();
+      }
+
+      function toggleFullscreen() {
+        const wrapper = document.querySelector(".video-wrapper");
+        if (!document.fullscreenElement) {
+          if (wrapper.requestFullscreen) {
+            wrapper.requestFullscreen();
+          } else if (introVideo.webkitRequestFullscreen) {
+            introVideo.webkitRequestFullscreen();
+          } else if (introVideo.webkitEnterFullscreen) {
+            introVideo.webkitEnterFullscreen();
+          } else if (introVideo.msRequestFullscreen) {
+            introVideo.msRequestFullscreen();
+          }
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      }
+
+      function showControlsTemporarily() {
+        videoFrame.classList.remove("controls-hidden");
+        clearTimeout(controlsTimer);
+
+        if (!introVideo.paused) {
+          controlsTimer = setTimeout(() => {
+            videoFrame.classList.add("controls-hidden");
+          }, 2200);
+        }
+      }
+
+      // ===== Open overlay + autoplay video on video-play-btn click =====
       videoPlayBtn?.addEventListener("click", () => {
         stopAndPlay(topicAudio);
+
+        document.body.classList.add("video-open");
+        videoOverlay.classList.add("active");
+
+        maxPlayedTime = 0;
+        introVideo.currentTime = 0;
+
+        updateMuteIcon();
+        updatePlayIcons();
+        updateProgress();
+
+        setTimeout(() => {
+          introVideo.play().catch((err) => {
+            console.error("Video autoplay blocked:", err);
+          });
+        }, 250);
       });
 
-      // ===== Circle click audio with 1.5 second page change delay =====
+      // ===== Close overlay =====
+      videoClose?.addEventListener("click", () => {
+        videoOverlay.classList.remove("active");
+        document.body.classList.remove("video-open");
+        introVideo.pause();
+        introVideo.currentTime = 0;
+        maxPlayedTime = 0;
+
+        if (document.fullscreenElement) {
+          document.exitFullscreen().catch(() => {});
+        }
+
+        updatePlayIcons();
+      });
+
+      // ===== Fullscreen button =====
+      videoFullscreenBtn?.addEventListener("click", toggleFullscreen);
+      document.addEventListener("fullscreenchange", () => {
+        videoFullscreenBtn.textContent = document.fullscreenElement ? "🗗" : "⛶";
+      });
+
+      // ===== Video event bindings =====
+      introVideo.addEventListener("timeupdate", updateProgress);
+      introVideo.addEventListener("loadedmetadata", updateProgress);
+      introVideo.addEventListener("play", updatePlayIcons);
+      introVideo.addEventListener("pause", updatePlayIcons);
+
+      introVideo.addEventListener("ended", () => {
+        maxPlayedTime = 0;
+        videoProgress.value = 0;
+        currentTimeText.textContent = "0:00";
+        updatePlayIcons();
+      });
+
+      introVideo.addEventListener("seeking", () => {
+        if (introVideo.currentTime > maxPlayedTime) {
+          introVideo.currentTime = maxPlayedTime;
+        }
+      });
+
+      introVideo.addEventListener("contextmenu", (e) => e.preventDefault());
+
+      // ===== Control interactions =====
+      videoControl.addEventListener("click", togglePlay);
+      playPauseBtn.addEventListener("click", togglePlay);
+      muteBtn.addEventListener("click", toggleMute);
+      volumeRange.addEventListener("input", changeVolume);
+
+      videoProgress.addEventListener("input", handleProgressInput);
+      videoProgress.addEventListener("change", handleProgressChange);
+      videoProgress.addEventListener("mousedown", () => (isProgressDragging = true));
+      videoProgress.addEventListener("mouseup", handleProgressChange);
+      videoProgress.addEventListener("touchstart", () => (isProgressDragging = true));
+      videoProgress.addEventListener("touchend", handleProgressChange);
+
+      videoFrame.addEventListener("mousemove", showControlsTemporarily);
+      videoFrame.addEventListener("click", showControlsTemporarily);
+
+      document.addEventListener("keydown", (e) => {
+        if (!videoOverlay.classList.contains("active")) return;
+
+        if (e.key === "Escape") {
+          videoClose.click();
+        }
+        if (e.code === "Space") {
+          e.preventDefault();
+          togglePlay();
+        }
+        if (e.key.toLowerCase() === "m") {
+          toggleMute();
+        }
+        if (e.key.toLowerCase() === "f") {
+          toggleFullscreen();
+        }
+      });
+
+      // ===== Circle click audio with page change delay =====
       const circles = document.querySelectorAll(".circle");
 
       circles.forEach((circle) => {
@@ -147,7 +781,6 @@
 
           stopAndPlay(transitionAudio);
 
-          // 1.5 second delay before page changes
           setTimeout(() => {
             window.location.href = targetLink;
           }, 2000);

@@ -70,28 +70,37 @@
     align-items: center;
   }
 
-  .lang-btn {
-    width: 8vw;
-    height: 2.7vw;
+.lang-btn {
+   position: fixed;
+    top: 5%;
+    right: 4%;
     display: flex;
+    width: 8.4vw;
+    padding: 0.2vw;
+    height: auto;
     justify-content: space-between;
     align-items: center;
-    padding: 0vh 0.3vw;
-    border: 0.3vb solid white;
-    border-radius: 50vb;
-  }
+    font-family: "BalooRegular";
+    border: 0.2vw solid white;
+    border-radius: 50vw;
+}
 
-  .lang-btn button {
-    width: 2.2vw;
+.lang-btn button {
+  width: 2.2vw;
     height: 2.2vw;
-    border: 0.3vb solid white;
-    border-radius: 50vb;
-    font-size: 1.5vw;
-    font-weight: 600;
-    background-color: transparent;
-    color: white;
-    font-family: 'Baloo', serif;
-  }
+    font-size: 1.7vw;
+    text-align: center;
+    border: 0.2vw solid #ffffff;
+    background: transparent;
+    color: #ffffff;
+    cursor: pointer;
+    border-radius: 50%;
+  font-family: 'Baloo';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
   .lang-btn button:hover {
     background-color: white;

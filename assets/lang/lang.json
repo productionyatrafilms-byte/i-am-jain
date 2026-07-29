@@ -20,7 +20,8 @@
     "slide-3.5": "I will be kind and loving towards all living beings.",
     "slide-3.6": "I will be kind and loving towards all living beings",
     "pranamz": "Pranam",
-    "home": "Home"
+    "home": "Home",
+    "watch":"Watch Video"
   },
   "hi": {
     "title": "मैं जैन हूँ",
@@ -43,7 +44,8 @@
     "slide-3.5": "मैं सभी जीवों के प्रति दया और प्रेमभाव रखूँगा।",
     "slide-3.6": "मैं सभी जीवों के प्रति दया और प्रेमभाव रखूँगा",
     "pranam": "प्रणाम",
-    "home": "होम"
+    "home": "होम",
+    "watch": "वीडियो देखें"
   },
   "gu": {
     "title": "હું જૈન છું",
@@ -66,6 +68,7 @@
     "slide-3.5": "હું તમામ જીવ પ્રત્યે દયાળુ અને પ્રેમાળ રહીશ.",
     "slide-3.6": "હું તમામ જીવ પ્રત્યે દયાળુ અને પ્રેમાળ રહીશ",
     "pranam": "પ્રણામ",
-    "home": "હોમ"
+    "home": "હોમ",
+    "watch": "વિડિયો જુઓ"
   }
 }

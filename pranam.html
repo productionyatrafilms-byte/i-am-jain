@@ -27,6 +27,25 @@
         transform: none;
         animation: enterRight var(--enter-dur) var(--enter-ease) 160ms forwards;
       }
+
+      
+  .pranam-video{
+    position: absolute;
+    left: 49.7%;
+    top: 48.7%;
+    transform: translate(-50%,-50%);
+    width: 28vw;
+    height: 28vw;
+    border-radius: 50%;
+background-color: white;
+  }
+
+  .pranam-video video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
     </style>
   </head>
 
@@ -43,6 +62,10 @@
 
     <div class="pranam-container">
       <div class="pranam-img">
+        <div class="pranam-video">
+          <video src="./assets/video/pranam.mp4" autoplay muted></video>
+        </div>
+
         <span data-lang-key="pranam"></span>
         <img src="./assets/image/pranam.png" alt="" />
       </div>
