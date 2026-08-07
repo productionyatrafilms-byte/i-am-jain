@@ -70,7 +70,17 @@ function openScrollOnce() {
 }
 
 // =========================
-// 2) Click handling
+// 1b) Auto-open on page load (no click required)
+// =========================
+window.addEventListener("load", () => {
+  // Small delay so the page has settled before the transition kicks off
+  setTimeout(() => {
+    openScrollOnce();
+  }, 300);
+});
+
+// =========================
+// 2) Click handling (kept as a harmless fallback)
 // =========================
 if (circleContainer) {
   circleContainer.addEventListener("click", (e) => {

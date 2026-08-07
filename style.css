@@ -539,12 +539,12 @@ body[data-lang="gu"] .title h1 {
 .pranam-img span {
   z-index: 15;
   position: absolute;
-  top: 17%;
+  top: 0%;
   left: 50%;
   font-size: 3.4vw;
   transform: translateX(-50%);
   font-family: 'Baloo';
-  color: #B764D9;
+  color: #ffae3c;
 }
 
 .pranam-container .home-btn-1 {
