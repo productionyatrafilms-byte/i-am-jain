@@ -535,8 +535,7 @@
       let lastVolume = 1;
       let isProgressDragging = false;
 
-      // ===== Restrict seeking forward, allow seeking backward =====
-      let maxPlayedTime = 0;
+      // ===== Free seeking (forward + backward) is now allowed =====
 
       function formatTime(time) {
         if (!time || isNaN(time)) return "0:00";
@@ -562,10 +561,6 @@
       function updateProgress() {
         if (!introVideo.duration) return;
 
-        if (introVideo.currentTime > maxPlayedTime) {
-          maxPlayedTime = introVideo.currentTime;
-        }
-
         if (!isProgressDragging) {
           videoProgress.value = (introVideo.currentTime / introVideo.duration) * 100;
         }
@@ -579,28 +574,14 @@
         isProgressDragging = true;
 
         const selectedTime = (Number(videoProgress.value) / 100) * introVideo.duration;
-
-        if (selectedTime <= maxPlayedTime) {
-          currentTimeText.textContent = formatTime(selectedTime);
-        } else {
-          const allowedProgress = (maxPlayedTime / introVideo.duration) * 100;
-          videoProgress.value = allowedProgress;
-          currentTimeText.textContent = formatTime(maxPlayedTime);
-        }
+        currentTimeText.textContent = formatTime(selectedTime);
       }
 
       function handleProgressChange() {
         if (!introVideo.duration) return;
 
         const selectedTime = (Number(videoProgress.value) / 100) * introVideo.duration;
-
-        if (selectedTime <= maxPlayedTime) {
-          introVideo.currentTime = selectedTime;
-        } else {
-          introVideo.currentTime = maxPlayedTime;
-          const allowedProgress = (maxPlayedTime / introVideo.duration) * 100;
-          videoProgress.value = allowedProgress;
-        }
+        introVideo.currentTime = selectedTime;
 
         isProgressDragging = false;
         updateProgress();
@@ -680,7 +661,6 @@
         document.body.classList.add("video-open");
         videoOverlay.classList.add("active");
 
-        maxPlayedTime = 0;
         introVideo.currentTime = 0;
 
         updateMuteIcon();
@@ -700,7 +680,6 @@
         document.body.classList.remove("video-open");
         introVideo.pause();
         introVideo.currentTime = 0;
-        maxPlayedTime = 0;
 
         if (document.fullscreenElement) {
           document.exitFullscreen().catch(() => {});
@@ -722,16 +701,9 @@
       introVideo.addEventListener("pause", updatePlayIcons);
 
       introVideo.addEventListener("ended", () => {
-        maxPlayedTime = 0;
         videoProgress.value = 0;
         currentTimeText.textContent = "0:00";
         updatePlayIcons();
-      });
-
-      introVideo.addEventListener("seeking", () => {
-        if (introVideo.currentTime > maxPlayedTime) {
-          introVideo.currentTime = maxPlayedTime;
-        }
       });
 
       introVideo.addEventListener("contextmenu", (e) => e.preventDefault());

@@ -147,10 +147,10 @@
                       <video
                         class="star-video"
                         src="./assets/video/who-am-i/1.mp4"
-                        autoplay
                         muted
                         loop
                         playsinline
+                        preload="metadata"
                       ></video>
                     </div>
 
@@ -158,10 +158,10 @@
                       <video
                         class="star-video"
                         src="./assets/video/who-am-i/3.mp4"
-                        autoplay
                         muted
                         loop
                         playsinline
+                        preload="metadata"
                       ></video>
                     </div>
 
@@ -169,10 +169,10 @@
                       <video
                         class="star-video"
                         src="./assets/video/who-am-i/2.mp4"
-                        autoplay
                         muted
                         loop
                         playsinline
+                        preload="metadata"
                       ></video>
                     </div>
                   </div>
@@ -289,6 +289,99 @@
           stopAndPlay(swipeAudio);
         });
       });
+
+      // =========================
+      // Play star-videos ONLY when visible
+      // - IntersectionObserver: pause/play based on scroll visibility
+      // - Also respects the active swiper slide (only active slide's video plays)
+      // - Also pauses when the browser tab itself is hidden
+      // =========================
+
+      const starVideos = Array.from(document.querySelectorAll(".star-video"));
+
+      function isSlideActive(video) {
+        const slide = video.closest(".swiper-slide");
+        return slide ? slide.classList.contains("swiper-slide-active") : true;
+      }
+
+      function tryPlay(video) {
+        // Only play if it's on the active slide, tab is visible, and it's intersecting
+        if (
+          isSlideActive(video) &&
+          document.visibilityState === "visible" &&
+          video.dataset.isVisible === "true"
+        ) {
+          video.play().catch(() => {});
+        }
+      }
+
+      function pauseVideo(video) {
+        video.pause();
+      }
+
+      const videoObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const video = entry.target;
+
+            if (entry.isIntersecting) {
+              video.dataset.isVisible = "true";
+              tryPlay(video);
+            } else {
+              video.dataset.isVisible = "false";
+              pauseVideo(video);
+            }
+          });
+        },
+        { threshold: 0.25 } // consider "visible" once at least 25% is in view
+      );
+
+      starVideos.forEach((video) => {
+        video.dataset.isVisible = "false";
+        videoObserver.observe(video);
+      });
+
+      // ===== Handle browser tab switching =====
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") {
+          starVideos.forEach(pauseVideo);
+        } else {
+          starVideos.forEach(tryPlay);
+        }
+      });
+
+      // ===== Handle swiper slide changes (only active slide's video should play) =====
+      // Works whether the mediaSwiper instance is exposed globally by script1.js
+      // (e.g. window.mediaSwiper) or found via the DOM's swiper element instance.
+      function bindMediaSwiperVideoControl() {
+        const mediaSwiperEl = document.querySelector(".mediaSwiper");
+        const swiperInstance =
+          window.mediaSwiper || (mediaSwiperEl && mediaSwiperEl.swiper);
+
+        if (!swiperInstance) {
+          // script1.js may init swiper slightly after this script runs; retry shortly.
+          setTimeout(bindMediaSwiperVideoControl, 200);
+          return;
+        }
+
+        function refreshVideosForActiveSlide() {
+          starVideos.forEach((video) => {
+            if (isSlideActive(video)) {
+              tryPlay(video);
+            } else {
+              pauseVideo(video);
+            }
+          });
+        }
+
+        swiperInstance.on("slideChange", refreshVideosForActiveSlide);
+        swiperInstance.on("slideChangeTransitionEnd", refreshVideosForActiveSlide);
+
+        // Run once immediately in case the active slide's video is already visible
+        refreshVideosForActiveSlide();
+      }
+
+      bindMediaSwiperVideoControl();
     </script>
   </body>
 </html>
