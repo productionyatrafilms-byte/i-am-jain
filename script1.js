@@ -153,8 +153,17 @@ const textSwiperInstance = new Swiper(".textSwiper", {
 
 const mediaSwiperInstance = new Swiper(".mediaSwiper", {
   loop: false,
-  speed: 400,
-  allowTouchMove: true,
+
+  // Right-side video changes with fade instead of swipe
+  effect: "fade",
+  fadeEffect: {
+    crossFade: true,
+  },
+
+  speed: 700,
+
+  // Prevent manually swiping the video container
+  allowTouchMove: false,
 });
 
 textSwiperInstance.controller.control = mediaSwiperInstance;
