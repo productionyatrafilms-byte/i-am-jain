@@ -251,19 +251,18 @@ body[data-lang="gu"] .swiper-slide p {
   align-items: center;
 }
 
-.sub-title span {
-  line-height: 4vh;
-}
 
-body[data-lang="hi"] .sub-title span {
-  line-height: 4.5vh;
-  font-size: 2.3vw;
-}
 
-body[data-lang="gu"] .sub-title span {
-  font-size: 2vw;
-  line-height: 5vh;
-}
+  body[data-lang="hi"] .sub-title span {
+    line-height: 2.5vw;
+    font-size: 2vw;
+  }
+
+  body[data-lang="gu"] .sub-title span {
+    font-size: 1.75vw;
+    line-height: 2.5vw;
+  }
+
 
 .scripture-scroll-container {
   position: relative;
