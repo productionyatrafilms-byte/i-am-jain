@@ -117,6 +117,7 @@ nav {
 
 .video-play-btn {
   border-radius: 50vb;
+  cursor: pointer;
 }
 
 .video-play-btn button {
@@ -134,6 +135,7 @@ nav {
   background-size: contain;
   align-content: center !important;
   font-family: 'Baloo', serif;
+  cursor: pointer;
 }
 
 
