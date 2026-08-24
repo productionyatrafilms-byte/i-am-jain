@@ -194,7 +194,6 @@ textSwiperInstance.on("slideChange", () =>
 (() => {
   const LANG_KEY = "selectedLanguage";
   const DEFAULT_LANG = "en";
-  const LANG_JSON_URL = "./assets/lang/lang.json";
 
   let LANG_DATA = null;
 
@@ -245,10 +244,7 @@ textSwiperInstance.on("slideChange", () =>
   async function loadAllLangDataOnce() {
     if (LANG_DATA) return LANG_DATA;
 
-    const res = await fetch(LANG_JSON_URL, { cache: "no-store" });
-    if (!res.ok) throw new Error("Language JSON not found");
-
-    LANG_DATA = await res.json();
+    LANG_DATA = langData;
     return LANG_DATA;
   }
 
