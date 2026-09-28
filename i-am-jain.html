@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>i-am-jain</title>
-
+    <style>*{box-sizing:border-box;margin:0;padding:0}</style>
     <link rel="stylesheet" href="i-am-jain.css" />
     <link
       rel="stylesheet"
@@ -12,44 +12,227 @@
     />
     <link
       rel="stylesheet"
-      href="./fontawesome/css/all.min.css"
+      href="./assets/fontawesome/css/fontawesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./assets/fontawesome/css/solid.min.css"
     />
   </head>
 
-  <body>
+  <body style="position: relative; width: 100%; height: 100%; overflow: hidden">
     <!-- page start -->
-    <div class="page">
+    <div
+      class="page"
+      style="
+        background-color: #81019d;
+        background-image: url('assets/image/bg1.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: top;
+        height: 100vh;
+      "
+    >
       <!-- title -->
-      <div class="title" style="">
-        <h1 data-lang-key="title">i am jain</h1>
+      <div
+        class="title"
+        style="
+          position: absolute;
+          width: 30%;
+          height: 10vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          left: 50%;
+          transform: translateX(-50%);
+          top: 5vh;
+        "
+      >
+        <h1
+          data-lang-key="title"
+          style="
+            font-size: 5vw;
+            font-family: 'Onyx';
+            font-weight: lighter;
+            background: linear-gradient(to top, #d5060a 0%, #d5060a 18%, #ffb041 50%, #ffb041 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            filter: drop-shadow(0vw 0.3vw 0.15vw rgba(0, 0, 0, 0.5));
+          "
+        >i am jain</h1>
       </div>
 
       <!-- nav start -->
-      <nav>
-        <div class="home">
+      <nav
+        style="
+          position: relative;
+          width: 100%;
+          height: 10vh;
+          padding: 4.5vh 4vw 0 4vw;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <div
+          class="home"
+          style="
+            position: relative;
+            width: 3vw;
+            height: 3vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
           <a href="index.html">
-            <img class="home-btn" src="./assets/image/home-btn.png" alt="" />
+            <img
+              class="home-btn"
+              src="./assets/image/home-btn.png"
+              alt=""
+              style="width: 2.5vw; height: 2.5vw; object-fit: contain"
+            />
           </a>
         </div>
 
-        <div class="lang-btn">
-          <button class="english">E</button>
-          <button class="hindi">H</button>
-          <button class="Gujrati">G</button>
+        <div
+          class="lang-btn"
+          style="
+            position: fixed;
+            top: 5%;
+            right: 4%;
+            display: flex;
+            width: 8.4vw;
+            padding: 0.2vw;
+            height: auto;
+            justify-content: space-between;
+            align-items: center;
+            border: 0.2vw solid white;
+            border-radius: 50vw;
+          "
+        >
+          <button
+            class="english"
+            style="
+              width: 2.2vw;
+              height: 2.2vw;
+              font-size: 1.7vw;
+              text-align: center;
+              border: 0.2vw solid #ffffff;
+              cursor: pointer;
+              border-radius: 50%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            "
+          >E</button>
+          <button
+            class="hindi"
+            style="
+              width: 2.2vw;
+              height: 2.2vw;
+              font-size: 1.7vw;
+              text-align: center;
+              border: 0.2vw solid #ffffff;
+              cursor: pointer;
+              border-radius: 50%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            "
+          >H</button>
+          <button
+            class="Gujrati"
+            style="
+              width: 2.2vw;
+              height: 2.2vw;
+              font-size: 1.7vw;
+              text-align: center;
+              border: 0.2vw solid #ffffff;
+              cursor: pointer;
+              border-radius: 50%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            "
+          >G</button>
         </div>
       </nav>
       <!-- nav end -->
 
       <!-- main start -->
-      <div class="main">
+      <div
+        class="main"
+        style="width: 100%; height: 90vh; padding: 0vh 2vw; display: flex; justify-content: space-between"
+      >
         <!-- left container -->
-        <div class="left">
-          <div class="container">
+        <div
+          class="left"
+          style="
+            position: relative;
+            width: 55%;
+            height: 87vh;
+            display: flex;
+            justify-items: center;
+            align-items: center;
+          "
+        >
+          <div
+            class="container"
+            style="
+              position: relative;
+              width: 100%;
+              height: 30vw;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+            "
+          >
             <!-- circle + page nav -->
-            <div class="circle-container">
-              <div class="circle">
-                <img src="./assets/image/circle.png" alt="" />
-                <div class="sub-title sub-title-1">
+            <div
+              class="circle-container"
+              style="position: absolute; width: 100%; height: 15vw; pointer-events: none; z-index: 100"
+            >
+              <div
+                class="circle"
+                style="left: 0%; margin: auto; width: 100%; height: 28vw; z-index: 200; pointer-events: none"
+              >
+                <img
+                  src="./assets/image/circle.png"
+                  alt=""
+                  style="
+                    width: 12vw;
+                    height: 12vw;
+                    object-fit: contain;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                  "
+                />
+                <div
+                  class="sub-title sub-title-1"
+                  style="
+                    position: absolute;
+                    width: 8vw;
+                    height: 20vh;
+                    top: 49%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    text-align: center;
+                    font-size: 2vw;
+                    font-weight: bolder;
+                    color: #630a83;
+                    z-index: 9999;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 1vw;
+                  "
+                >
                   <span data-lang-key="sub-title-2"
                     >I <br />
                     am <br />
@@ -58,58 +241,132 @@
                 </div>
               </div>
 
-              <div class="circle-controls">
-                <a class="prev" href="who-am-i.html">
-                  <i class="fa-solid fa-angle-left"></i>
+              <div
+                class="circle-controls"
+                style="
+                  position: absolute;
+                  top: 5vw;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  width: 40%;
+                  display: flex;
+                  justify-content: space-between;
+                  z-index: 250;
+                  pointer-events: auto;
+                "
+              >
+                <a
+                  class="prev"
+                  href="who-am-i.html"
+                  style="text-decoration: none; width: 3vw; height: 3vw; display: flex; align-items: center; justify-content: center"
+                >
+                  <i class="fa-solid fa-angle-left" style="font-size: 2vw; color: #b492ff"></i>
                 </a>
-                <a class="next" href="what-is-my-duty.html">
-                  <i class="fa-solid fa-angle-right"></i>
+                <a
+                  class="next"
+                  href="what-is-my-duty.html"
+                  style="text-decoration: none; width: 3vw; height: 3vw; display: flex; align-items: center; justify-content: center"
+                >
+                  <i class="fa-solid fa-angle-right" style="font-size: 2vw; color: #b492ff"></i>
                 </a>
               </div>
             </div>
 
             <!-- scroll area -->
-            <div class="scripture-scroll-container">
-              <div class="scripture-scroll">
+            <div
+              class="scripture-scroll-container"
+              style="
+                position: relative;
+                width: 80%;
+                height: 30vw;
+                margin-top: 10vh;
+                display: grid;
+                place-items: center;
+              "
+            >
+              <div
+                class="scripture-scroll"
+                style="position: absolute; width: 100%; height: 40vh; display: grid; place-items: center"
+              >
                 <!-- parchment behind -->
-                <div class="parchment-card-background">
-                  <div class="parchment-card">
+                <div
+                  class="parchment-card-background"
+                  style="
+                    position: absolute;
+                    width: 30vw;
+                    height: 20vw;
+                    z-index: 1;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                  "
+                >
+                  <div
+                    class="parchment-card"
+                    style="
+                      position: absolute;
+                      width: 100%;
+                      height: 20vw;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
                     <img
                       class="perchment-1"
                       src="./assets/image/parchment-card.png"
                       alt=""
+                      style="
+                        position: absolute;
+                        width: 5vw;
+                        height: 16vw;
+                        object-fit: cover;
+                        z-index: 1;
+                        margin-top: 0vw;
+                      "
                     />
 
                     <!-- text swiper on top -->
-                    <div class="parchment-content">
-                      <div class="swiper textSwiper">
+                    <div
+                      class="parchment-content"
+                      style="
+                        position: absolute;
+                        top: 10vw;
+                        left: 50%;
+                        width: 28vw;
+                        height: 10vw;
+                        z-index: 2;
+                        display: flex;
+                      "
+                    >
+                      <div class="swiper textSwiper" style="width: 100%; height: 100%">
                         <div class="swiper-wrapper">
-                          <div class="swiper-slide">
-                            <p data-lang-key="slide-2.1" class="perchment-text">
+                          <div class="swiper-slide" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center">
+                            <p data-lang-key="slide-2.1" class="perchment-text" style="font-family: 'Baloo'; font-size: 2.2vw; color: #4b1c0d; text-align: center; line-height: 1.3">
                               Jainism is my Religion
                             </p>
                           </div>
 
-                          <div class="swiper-slide">
-                            <p data-lang-key="slide-2.2" class="perchment-text">
+                          <div class="swiper-slide" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center">
+                            <p data-lang-key="slide-2.2" class="perchment-text" style="font-family: 'Baloo'; font-size: 2.2vw; color: #4b1c0d; text-align: center; line-height: 1.3">
                               Arihnats are my Bhagwan
                             </p>
                           </div>
 
-                          <div class="swiper-slide">
-                            <p data-lang-key="slide-2.3" class="perchment-text">
+                          <div class="swiper-slide" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center">
+                            <p data-lang-key="slide-2.3" class="perchment-text" style="font-family: 'Baloo'; font-size: 2.2vw; color: #4b1c0d; text-align: center; line-height: 1.3">
                               Jain Sadhu are my Guru
                             </p>
                           </div>
 
-                          <div class="swiper-slide">
-                            <p data-lang-key="slide-2.4" class="perchment-text">
+                          <div class="swiper-slide" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center">
+                            <p data-lang-key="slide-2.4" class="perchment-text" style="font-family: 'Baloo'; font-size: 2.2vw; color: #4b1c0d; text-align: center; line-height: 1.3">
                               I am Balshravak - Balshravika
                             </p>
                           </div>
 
-                          <div class="swiper-slide">
-                            <p data-lang-key="slide-2.5" class="perchment-text">
+                          <div class="swiper-slide" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center">
+                            <p data-lang-key="slide-2.5" class="perchment-text" style="font-family: 'Baloo'; font-size: 2.2vw; color: #4b1c0d; text-align: center; line-height: 1.3">
                               I have got most powerful Mantra - Navkar Mantra
                             </p>
                           </div>
@@ -117,21 +374,61 @@
                       </div>
 
                       <!-- buttons around parchment -->
-                      <button class="p-prev nav-btn" type="button">
-                        <i class="fa-solid fa-arrow-left"></i>
+                      <button
+                        class="p-prev nav-btn"
+                        type="button"
+                        style="
+                          position: absolute;
+                          top: 35vh;
+                          transform: translateY(-50%);
+                          width: 3vw;
+                          height: 3vw;
+                          border-radius: 50%;
+                          border: 0.4vb solid white;
+                          font-size: 1.5vw;
+                          left: 6vw;
+                        "
+                      >
+                        <i class="fa-solid fa-arrow-left" style="color: white; font-size: 1.5vw; text-align: center; object-fit: contain"></i>
                       </button>
 
-                      <button class="p-next nav-btn" type="button">
-                        <i class="fa-solid fa-arrow-right"></i>
+                      <button
+                        class="p-next nav-btn"
+                        type="button"
+                        style="
+                          position: absolute;
+                          top: 35vh;
+                          transform: translateY(-50%);
+                          width: 3vw;
+                          height: 3vw;
+                          border-radius: 50%;
+                          border: 0.4vb solid white;
+                          font-size: 1.5vw;
+                          right: 6vw;
+                        "
+                      >
+                        <i class="fa-solid fa-arrow-right" style="color: white; font-size: 1.5vw; text-align: center; object-fit: contain"></i>
                       </button>
                     </div>
                   </div>
                 </div>
 
                 <!-- scroll above -->
-                <div class="roll">
-                  <img src="./assets/image/scripture1.png" alt="" />
-                  <img src="./assets/image/scripture2.png" alt="" />
+                <div
+                  class="roll"
+                  style="
+                    position: absolute;
+                    z-index: 5;
+                    height: 50vh;
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    transform-origin: center;
+                  "
+                >
+                  <img src="./assets/image/scripture1.png" alt="" style="height: 25vw; width: 3vw; object-fit: contain; display: block; flex: 0 0 auto">
+                  <img src="./assets/image/scripture2.png" alt="" style="height: 25vw; width: 3vw; object-fit: contain; display: block; flex: 0 0 auto">
                 </div>
               </div>
             </div>
@@ -141,19 +438,72 @@
         </div>
 
         <!-- right container -->
-        <div class="right">
-          <div class="right-img-container">
-            <div class="star-wrap">
+        <div class="right" style="position: relative; width: 45%; height: 100%">
+          <div
+            class="right-img-container"
+            style="
+              display: flex;
+              align-items: center;
+              justify-items: center;
+              position: relative;
+              width: 100%;
+              height: 90%;
+              overflow: hidden;
+              justify-content: center;
+            "
+          >
+            <div
+              class="star-wrap"
+              style="
+                margin-top: 5vw;
+                position: absolute;
+                width: 45vw;
+                height: 45vw;
+                object-fit: cover;
+                z-index: 5;
+                pointer-events: none;
+                left: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+            >
               <img
                 class="star-border"
                 src="./assets/image/Group.png"
                 alt=""
+                style="
+                  display: block;
+                  margin: auto;
+                  width: 100%;
+                  height: auto;
+                  object-fit: contain;
+                  z-index: 2;
+                  pointer-events: none;
+                  position: relative;
+                "
               />
 
-              <div class="star-mask">
-                <div class="swiper mediaSwiper">
-                  <div class="swiper-wrapper">
-                    <div class="swiper-slide">
+              <div
+                class="star-mask"
+                style="
+                  position: absolute;
+                  width: 100%;
+                  height: 100%;
+                  left: 50%;
+                  top: 50%;
+                  transform: translate(-50%, -50%);
+                  z-index: 10;
+                  overflow: hidden;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  object-fit: contain;
+                "
+              >
+                <div class="swiper mediaSwiper" style="width: 100%; height: 100%">
+                  <div class="swiper-wrapper" style="width: 100%; height: 100%">
+                    <div class="swiper-slide" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center">
                       <video
                         class="star-video"
                         src="./assets/video/I-am-jain/3.mp4"
@@ -161,10 +511,11 @@
                         loop
                         playsinline
                         preload="metadata"
+                        style="width: 29.7vw; height: 21vw; display: block; object-fit: cover; margin-bottom: 2.2vw; margin-right: 0.3vw"
                       ></video>
                     </div>
 
-                    <div class="swiper-slide">
+                    <div class="swiper-slide" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center">
                       <video
                         class="star-video"
                         src="./assets/video/I-am-jain/4.mp4"
@@ -172,10 +523,11 @@
                         loop
                         playsinline
                         preload="metadata"
+                        style="width: 29.7vw; height: 21vw; display: block; object-fit: cover; margin-bottom: 2.2vw; margin-right: 0.3vw"
                       ></video>
                     </div>
 
-                    <div class="swiper-slide">
+                    <div class="swiper-slide" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center">
                       <video
                         class="star-video"
                         src="./assets/video/I-am-jain/5.mp4"
@@ -183,10 +535,11 @@
                         loop
                         playsinline
                         preload="metadata"
+                        style="width: 29.7vw; height: 21vw; display: block; object-fit: cover; margin-bottom: 2.2vw; margin-right: 0.3vw"
                       ></video>
                     </div>
 
-                    <div class="swiper-slide">
+                    <div class="swiper-slide" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center">
                       <video
                         class="star-video"
                         src="./assets/video/I-am-jain/6.mp4"
@@ -194,10 +547,11 @@
                         loop
                         playsinline
                         preload="metadata"
+                        style="width: 29.7vw; height: 21vw; display: block; object-fit: cover; margin-bottom: 2.2vw; margin-right: 0.3vw"
                       ></video>
                     </div>
 
-                    <div class="swiper-slide">
+                    <div class="swiper-slide" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center">
                       <video
                         class="star-video"
                         src="./assets/video/I-am-jain/7.mp4"
@@ -205,6 +559,7 @@
                         loop
                         playsinline
                         preload="metadata"
+                        style="width: 29.7vw; height: 21vw; display: block; object-fit: cover; margin-bottom: 2.2vw; margin-right: 0.3vw"
                       ></video>
                     </div>
                   </div>
@@ -212,7 +567,19 @@
               </div>
             </div>
 
-            <img class="character" src="./assets/image/namste.png" alt="" />
+            <img
+              class="character"
+              src="./assets/image/namste.png"
+              alt=""
+              style="
+                position: absolute;
+                width: 18%;
+                left: 50%;
+                top: 53%;
+                z-index: 9;
+                transform: translate(-50%, -50%);
+              "
+            />
           </div>
         </div>
       </div>
